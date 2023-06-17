@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Drop Shadow Stack -->
+    <item>
+        <shape>
+            <padding
+                android:bottom="2.5dp"
+                android:left="2.5dp"
+                android:right="2.5dp"
+                android:top="2.5dp" />
+
+            <solid android:color="#00CCCCCC" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="2.5dp"
+                android:left="2.5dp"
+                android:right="2.5dp"
+                android:top="2.5dp" />
+
+            <solid android:color="#06CCCCCC" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="2.5dp"
+                android:left="2.5dp"
+                android:right="2.5dp"
+                android:top="2.5dp" />
+
+            <solid android:color="#06CCCCCC" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+    <item>
+    <shape>
+        <padding
+            android:bottom="2.5dp"
+            android:left="2.5dp"
+            android:right="2.5dp"
+            android:top="2.5dp" />
+
+        <solid android:color="#06CCCCCC" />
+        <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+    </shape>
+</item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="2.5dp"
+                android:left="2.5dp"
+                android:right="2.5dp"
+                android:top="2.5dp" />
+
+            <solid android:color="#06CCCCCC" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="2.5dp"
+                android:left="2.5dp"
+                android:right="2.5dp"
+                android:top="2.5dp" />
+
+            <solid android:color="#06CCCCCC" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+    <!-- 나머지 색상 아이템도 동일하게 수정 -->
+
+    <!-- Background -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/white" />
+            <corners android:radius="30dp" /> <!-- 30dp로 코너를 둥글게 설정 -->
+        </shape>
+    </item>
+
+</layer-list>

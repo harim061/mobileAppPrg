@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/card"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시설명"
+                android:textColor="#212121"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/item_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_title"
+                android:layout_marginTop="3dp"
+                android:text="주소"
+                android:textColor="#727272"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/item_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_add"
+                android:layout_marginTop="3dp"
+                android:text="전화번호"
+                android:textColor="#727272"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/item_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_call"
+                android:layout_marginTop="3dp"
+                android:text="내용"
+                android:textColor="#727272"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_about"
+                android:layout_marginTop="3dp"
+                android:text="내용"
+                android:textColor="#4169E1"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
