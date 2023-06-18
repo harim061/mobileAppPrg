@@ -23,32 +23,37 @@ class BoardDetailActivity : AppCompatActivity() {
         // Get docId from Intent
         val docId = intent.getStringExtra("docId")
 
-        // Get the details of the post
-        MyApplication.db.collection("news").document(docId!!)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val item = document.toObject(ItemBoardModel::class.java)!!
-                    binding.emailTextView.text = item.email
-                    binding.dateTextView.text = item.date
-                    binding.contentTextView.text = item.content
-                    val storage = MyApplication.storage
-                    val storageRef = storage.reference
-                    val imgRef = storageRef.child("images/${docId}.jpg")
-                    imgRef.downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(this)
-                            .load(uri.toString())
-                            .into(binding.postImageView) // postImageView는 위의 XML에서 추가한 ImageView의 ID입니다.
-                    }.addOnFailureListener { exception ->
-                        Log.d("BoardDetail", "Error loading image", exception)
+        if(docId != null){
+            MyApplication.db.collection("news").document(docId!!)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val item = document.toObject(ItemBoardModel::class.java)!!
+                        binding.emailTextView.text = item.email
+                        binding.dateTextView.text = item.date
+                        binding.contentTextView.text = item.content
+                        val storage = MyApplication.storage
+                        val storageRef = storage.reference
+                        val imgRef = storageRef.child("images/${docId}.jpg")
+                        imgRef.downloadUrl.addOnSuccessListener { uri ->
+                            Glide.with(this)
+                                .load(uri.toString())
+                                .into(binding.postImageView) // postImageView는 위의 XML에서 추가한 ImageView의 ID입니다.
+                        }.addOnFailureListener { exception ->
+                            Log.d("BoardDetail", "Error loading image", exception)
+                        }
+                    } else {
+                        Log.d("BoardDetail", "No such document")
                     }
-                } else {
-                    Log.d("BoardDetail", "No such document")
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("BoardDetail", "get failed with ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d("BoardDetail", "get failed with ", exception)
+                }
+        }else{
+            finish()
+        }
+        // Get the details of the post
+
 
         // Setup RecyclerView for comments
         commentAdapter = CommentAdapter(commentList)
@@ -56,17 +61,19 @@ class BoardDetailActivity : AppCompatActivity() {
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // Get the comments for this post
-        MyApplication.db.collection("news").document(docId)
-            .collection("comments")
-            .orderBy("timestamp")
-            .addSnapshotListener { querySnapshot, _ ->
-                commentList.clear()
-                for (document in querySnapshot!!.documents) {
-                    val comment = document.toObject(Comment::class.java)!!
-                    commentList.add(comment)
+        if (docId != null) {
+            MyApplication.db.collection("news").document(docId)
+                .collection("comments")
+                .orderBy("timestamp")
+                .addSnapshotListener { querySnapshot, _ ->
+                    commentList.clear()
+                    for (document in querySnapshot!!.documents) {
+                        val comment = document.toObject(Comment::class.java)!!
+                        commentList.add(comment)
+                    }
+                    commentAdapter.notifyDataSetChanged()
                 }
-                commentAdapter.notifyDataSetChanged()
-            }
+        }
 
         // Post a new comment
         binding.submitCommentButton.setOnClickListener {
@@ -86,16 +93,18 @@ class BoardDetailActivity : AppCompatActivity() {
                     "timestamp" to System.currentTimeMillis()
                 )
 
-                MyApplication.db.collection("news").document(docId)
-                    .collection("comments")
-                    .add(commentData)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "댓글이 성공적으로 작성되었습니다.", Toast.LENGTH_SHORT).show()
-                        binding.commentEditText.text.clear()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "댓글 작성에 실패했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                if (docId != null) {
+                    MyApplication.db.collection("news").document(docId)
+                        .collection("comments")
+                        .add(commentData)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "댓글이 성공적으로 작성되었습니다.", Toast.LENGTH_SHORT).show()
+                            binding.commentEditText.text.clear()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "댓글 작성에 실패했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
         }
     }
