@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.my18.databinding.ActivityBoardDetailBinding
 
 
@@ -31,6 +32,16 @@ class BoardDetailActivity : AppCompatActivity() {
                     binding.emailTextView.text = item.email
                     binding.dateTextView.text = item.date
                     binding.contentTextView.text = item.content
+                    val storage = MyApplication.storage
+                    val storageRef = storage.reference
+                    val imgRef = storageRef.child("images/${docId}.jpg")
+                    imgRef.downloadUrl.addOnSuccessListener { uri ->
+                        Glide.with(this)
+                            .load(uri.toString())
+                            .into(binding.postImageView) // postImageView는 위의 XML에서 추가한 ImageView의 ID입니다.
+                    }.addOnFailureListener { exception ->
+                        Log.d("BoardDetail", "Error loading image", exception)
+                    }
                 } else {
                     Log.d("BoardDetail", "No such document")
                 }

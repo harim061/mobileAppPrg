@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my18.databinding.ItemBoardBinding
+import com.example.my18application.GlideApp
 
 
 class MyBoardViewHolder(val binding: ItemBoardBinding) : RecyclerView.ViewHolder(binding.root)
@@ -38,6 +39,16 @@ class MyBoardAdapter(val context: Context, val itemList: MutableList<ItemBoardMo
         }
 
         //스토리지 이미지 다운로드........................
+        var imageRef =  MyApplication.storage.reference.child("images/${data.docId}.jpg")
+
+        imageRef.downloadUrl.addOnCompleteListener{
+            task->
+            if(task.isSuccessful){
+                GlideApp.with(context)
+                    .load(task.result)
+                    .into(holder.binding.itemImageView)
+            }
+        }
 
     }
 }

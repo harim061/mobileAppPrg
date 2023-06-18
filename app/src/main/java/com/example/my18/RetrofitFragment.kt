@@ -28,17 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.io.ByteArrayOutputStream
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RetrofitFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
 
 class RetrofitFragment : Fragment() {
     private lateinit var binding: FragmentRetrofitBinding
@@ -46,13 +37,13 @@ class RetrofitFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRetrofitBinding.inflate(inflater, container, false)
 
-        // Set up SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
         val currentUser = auth.currentUser
@@ -69,12 +60,10 @@ class RetrofitFragment : Fragment() {
             binding.email.text = username
         }
 
-        // Set up RecyclerView and Adapter
         adapter = MyRetrofitAdapter()
         binding.retrofitRecyclerView.adapter = adapter
         binding.retrofitRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Fetch data from Firestore and update the adapter
         fetchFirebaseData()
 
         binding.saveButton.setOnClickListener {
@@ -118,7 +107,6 @@ class RetrofitFragment : Fragment() {
         authStateListener = FirebaseAuth.AuthStateListener {
             val user = it.currentUser
             if (user != null) {
-                // 사용자가 로그인한 경우
                 val email = user.email
                 val username = email?.substringBefore("@")
                 binding.email.text = username
@@ -129,13 +117,12 @@ class RetrofitFragment : Fragment() {
                 val loadedText = loadTextFromSharedPreferences(email)
                 binding.introEditText.setText(loadedText)
 
-                fetchFirebaseData() // 데이터 다시 불러오기
+                fetchFirebaseData()
             } else {
-                // 사용자가 로그아웃한 경우
                 binding.email.text = "로그인"
                 binding.userImg.setImageBitmap(null)
                 binding.introEditText.setText("")
-                adapter.setData(emptyList()) // 목록 비우기
+                adapter.setData(emptyList())
             }
         }
         return binding.root
@@ -197,7 +184,6 @@ class RetrofitFragment : Fragment() {
                         for (document in snapshot.documents) {
                             val address = document.getString("textAddress") ?: ""
 
-                            // 주소값에 따라 카운트 증가
                             if (address.contains("중구")) {
                                 incrementAddressCount(addressCounts, "중구")
                             }
@@ -210,23 +196,11 @@ class RetrofitFragment : Fragment() {
                             if (address.contains("미추홀구")) {
                                 incrementAddressCount(addressCounts, "미추홀구")
                             }
-                            else{
+                            else {
                                 incrementAddressCount(addressCounts,"그 외")
                             }
-                            // ... 나머지 주소에 대한 처리 ...
 
                             val name = document.getString("textName") ?: ""
-                            val call = document.getString("textCall") ?: ""
-                            val about = document.getString("textAbout") ?: ""
-                            val selectedTime = document.getString("selectedTime") ?: ""
-                            val customItem = CustomItem(name, address, call, about, selectedTime)
-                            customItems.add(customItem)
-                        }
-
-
-                        for (document in snapshot.documents) {
-                            val name = document.getString("textName") ?: ""
-                            val address = document.getString("textAddress") ?: ""
                             val call = document.getString("textCall") ?: ""
                             val about = document.getString("textAbout") ?: ""
                             val selectedTime = document.getString("selectedTime") ?: ""
@@ -235,12 +209,11 @@ class RetrofitFragment : Fragment() {
                         }
                         updateChart(addressCounts)
                         adapter.setData(customItems)
-                        adapter.setData(customItems)
                     }
                 }
         }
-
     }
+
     private fun incrementAddressCount(addressCounts: MutableMap<String, Int>, address: String) {
         val count = addressCounts[address] ?: 0
         addressCounts[address] = count + 1
@@ -253,7 +226,6 @@ class RetrofitFragment : Fragment() {
         val labels = mutableListOf<String>()
         val otherLabel = "그 외"
 
-        // 주소별 카운트를 차트 데이터로 변환
         addressCounts.forEach { (address, count) ->
             if (address in listOf("중구", "연수구", "남동구", "미추홀구")) {
                 entries.add(BarEntry(entries.size.toFloat(), count.toFloat()))
@@ -261,7 +233,6 @@ class RetrofitFragment : Fragment() {
             }
         }
 
-        // "그 외" 라벨과 카운트 추가
         val otherCount = addressCounts.values.sum() - entries.sumBy { it.y.toInt() }
         if (otherCount > 0) {
             entries.add(BarEntry(entries.size.toFloat(), otherCount.toFloat()))
@@ -284,9 +255,6 @@ class RetrofitFragment : Fragment() {
         chart.invalidate()
         chart.animateY(500)
     }
-
-
-
 
     private fun saveTextToSharedPreferences(text: String, email: String) {
         val editor = sharedPreferences.edit()
