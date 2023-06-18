@@ -49,6 +49,7 @@ class VolleyFragment : Fragment() {
         var mutableList: MutableList<ItemVolleyModel>
 
 
+
             val url ="https://smart.incheon.go.kr/server/rest/services/Hosted/장애인_복지시설_정보/FeatureServer/187/query?where=1%3D1&outFields=*&outSR=4326&f=json"
             Log.d("mobileApp",url)
             val queue = Volley.newRequestQueue(activity)
@@ -68,6 +69,8 @@ class VolleyFragment : Fragment() {
                             call = attributes.getString("전화번호")
                             about = attributes.getString("비고")
                             name = attributes.getString("시설명")
+                            lat = attributes.getString("위도")
+                            lon = attributes.getString("경도")
                             mutableList.add(this)
                         }
                     }

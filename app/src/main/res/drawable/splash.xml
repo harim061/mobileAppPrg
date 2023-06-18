@@ -7,8 +7,10 @@
         android:left="20dp"
         android:gravity="center_horizontal"
         >
+
         <bitmap
             android:src="@drawable/dowadream"
             android:gravity="top"></bitmap>
     </item>
+
 </layer-list>

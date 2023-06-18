@@ -53,6 +53,7 @@
             android:textSize="18sp" />
 
 
+
         <FrameLayout
             android:id="@+id/map"
             android:layout_width="300dp"
